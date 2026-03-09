@@ -7,10 +7,10 @@
 
 ### Game Setup
 
-- [ ] **SETUP-01**: Player can start a new game by entering their name
-- [ ] **SETUP-02**: New game is initialized in the database with default values (money=5000, battery=1000, global_awareness=0)
-- [ ] **SETUP-03**: Player is placed at a random starting airport on new game
-- [ ] **SETUP-04**: Player can continue an existing game session (load latest game record)
+- [x] **SETUP-01**: Player can start a new game by entering their name
+- [x] **SETUP-02**: New game is initialized in the database with default values (money=5000, battery=1000, global_awareness=0)
+- [x] **SETUP-03**: Player is placed at a random starting airport on new game
+- [x] **SETUP-04**: Player can continue an existing game session (load latest game record)
 - [ ] **SETUP-05**: Player can quit the game from the main menu
 
 ### Navigation
@@ -50,8 +50,8 @@
 
 ### Database & Persistence
 
-- [ ] **DB-01**: Schema migrations applied: game table has money, global_awareness, battery_used columns; airport table has is_unlocked column
-- [ ] **DB-02**: All game state persists in MariaDB — no in-memory-only state
+- [x] **DB-01**: Schema migrations applied: game table has money, global_awareness, battery_used columns; airport table has is_unlocked column
+- [x] **DB-02**: All game state persists in MariaDB — no in-memory-only state
 - [ ] **DB-03**: Multi-step state updates (fly action: battery + location + unlock) are wrapped in a single transaction
 - [x] **DB-04**: Database credentials loaded from .env file — never hardcoded in source code
 
@@ -95,10 +95,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| SETUP-01 | Phase 1 | Pending |
-| SETUP-02 | Phase 1 | Pending |
-| SETUP-03 | Phase 1 | Pending |
-| SETUP-04 | Phase 1 | Pending |
+| SETUP-01 | Phase 1 | Complete |
+| SETUP-02 | Phase 1 | Complete |
+| SETUP-03 | Phase 1 | Complete |
+| SETUP-04 | Phase 1 | Complete |
 | SETUP-05 | Phase 4 | Pending |
 | NAV-01 | Phase 2 | Pending |
 | NAV-02 | Phase 2 | Pending |
@@ -120,8 +120,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | UI-02 | Phase 4 | Pending |
 | UI-03 | Phase 4 | Pending |
 | UI-04 | Phase 2 | Pending |
-| DB-01 | Phase 1 | Pending |
-| DB-02 | Phase 1 | Pending |
+| DB-01 | Phase 1 | Complete |
+| DB-02 | Phase 1 | Complete |
 | DB-03 | Phase 3 | Pending |
 | DB-04 | Phase 1 | Complete |
 | ARCH-01 | Phase 2 | Pending |

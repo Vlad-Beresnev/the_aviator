@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 01-foundation-01-PLAN.md
-last_updated: "2026-03-09T17:56:55.545Z"
+stopped_at: Completed 01-foundation-02-PLAN.md
+last_updated: "2026-03-09T18:00:02.879Z"
 last_activity: "2026-03-09 - Completed quick task 1: Update plan with db files, Finnish open API, and project example before discussion"
 progress:
   total_phases: 4
   completed_phases: 0
   total_plans: 3
-  completed_plans: 1
+  completed_plans: 2
   percent: 0
 ---
 
@@ -51,6 +51,7 @@ Progress: [░░░░░░░░░░] 0%
 
 *Updated after each plan completion*
 | Phase 01-foundation P01 | 2 | 2 tasks | 8 files |
+| Phase 01-foundation P02 | 3 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -65,6 +66,9 @@ Recent decisions affecting current work:
 - [Init]: Forced landing (teleport + penalty) instead of game over — keeps game flowing
 - [Phase 01-foundation]: mysql-connector-python used (not PyMySQL) — assignment constraint, confirmed working on Python 3.14
 - [Phase 01-foundation]: db_connection fixture uses pytest.skip when .env absent — allows CI without credentials
+- [Phase 01-foundation]: Fail-fast EnvironmentError on config.py import if DB credentials missing — surfaces config issues before cryptic mysql failures
+- [Phase 01-foundation]: Open/close connection per function (no pooling) in db_manager.py — appropriate for assignment scope
+- [Phase 01-foundation]: dictionary=True cursor in get_latest_game — returns dict directly, no manual column mapping
 
 ### Pending Todos
 
@@ -83,6 +87,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-09T17:56:55.543Z
-Stopped at: Completed 01-foundation-01-PLAN.md
+Last session: 2026-03-09T18:00:02.876Z
+Stopped at: Completed 01-foundation-02-PLAN.md
 Resume file: None
