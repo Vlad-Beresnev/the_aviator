@@ -29,7 +29,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. An existing game session loads by reading the latest game record from the database — no duplicate rows are created
   4. Database credentials are read from a .env file; no passwords appear in any source file or git history
   5. All SQL strings exist only in db_manager.py; main.py, airport_service.py, player_service.py, and game_logic.py contain no SQL
-**Plans**: TBD
+**Plans**: 3 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — Environment setup: .gitignore, .env.example, test scaffold (pytest + 4 test files)
+- [ ] 01-02-PLAN.md — Core implementation: config.py (credentials + constants) and db_manager.py (migrations + CRUD)
+- [ ] 01-03-PLAN.md — Module stubs: airport_service.py, player_service.py, game_logic.py, main.py with correct import chains
 
 ### Phase 2: Service Layer
 **Goal**: Airport navigation and player state services are complete, returning plain dicts, and the core actions — view airports, fly, lecture, recharge — work end-to-end with persistence
@@ -72,7 +77,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 0/TBD | Not started | - |
+| 1. Foundation | 0/3 | Not started | - |
 | 2. Service Layer | 0/TBD | Not started | - |
 | 3. Game Controller | 0/TBD | Not started | - |
 | 4. CLI and Polish | 0/TBD | Not started | - |
