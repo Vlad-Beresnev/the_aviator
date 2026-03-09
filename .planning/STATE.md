@@ -5,7 +5,7 @@ milestone_name: milestone
 status: planning
 stopped_at: Completed 01-foundation-03-PLAN.md
 last_updated: "2026-03-09T18:03:15.471Z"
-last_activity: "2026-03-09 - Completed quick task 1: Update plan with db files, Finnish open API, and project example before discussion"
+last_activity: "2026-03-09 - Completed quick task 2: Fix failing tests — run migrations in db_connection fixture, exclude venv from credential scan"
 progress:
   total_phases: 4
   completed_phases: 1
@@ -87,6 +87,7 @@ None yet.
 | # | Description | Date | Commit | Directory |
 |---|-------------|------|--------|-----------|
 | 1 | Update plan with db files, Finnish open API, and project example before discussion | 2026-03-09 | b50941c | [1-update-plan-with-db-files-finnish-open-a](.planning/quick/1-update-plan-with-db-files-finnish-open-a/) |
+| 2 | Fix failing tests: run migrations in db_connection fixture, exclude venv from credential scan | 2026-03-09 | e36267f | [2-fix-failing-tests-game-table-missing-har](.planning/quick/2-fix-failing-tests-game-table-missing-har/) |
 
 ## Session Continuity
 
