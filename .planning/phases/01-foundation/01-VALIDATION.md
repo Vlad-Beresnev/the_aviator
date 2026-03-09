@@ -1,10 +1,11 @@
 ---
 phase: 1
 slug: foundation
-status: draft
-nyquist_compliant: false
-wave_0_complete: false
+status: complete
+nyquist_compliant: true
+wave_0_complete: true
 created: 2026-03-09
+audited: 2026-03-09
 ---
 
 # Phase 1 — Validation Strategy
@@ -38,15 +39,15 @@ created: 2026-03-09
 
 | Task ID | Plan | Wave | Requirement | Test Type | Automated Command | File Exists | Status |
 |---------|------|------|-------------|-----------|-------------------|-------------|--------|
-| 1-01-01 | 01 | 0 | SETUP-01 | unit | `pytest tests/test_db_manager.py::test_create_game -x` | ❌ W0 | ⬜ pending |
-| 1-01-02 | 01 | 0 | SETUP-02 | unit | `pytest tests/test_db_manager.py::test_create_game_defaults -x` | ❌ W0 | ⬜ pending |
-| 1-01-03 | 01 | 0 | SETUP-03 | unit | `pytest tests/test_db_manager.py::test_create_game_starting_airport -x` | ❌ W0 | ⬜ pending |
-| 1-01-04 | 01 | 0 | SETUP-04 | unit | `pytest tests/test_db_manager.py::test_get_latest_game -x` | ❌ W0 | ⬜ pending |
-| 1-01-05 | 01 | 1 | DB-01 | integration | `pytest tests/test_migrations.py::test_schema_after_migration -x` | ❌ W0 | ⬜ pending |
-| 1-01-06 | 01 | 1 | DB-02 | integration | `pytest tests/test_db_manager.py::test_persistence_roundtrip -x` | ❌ W0 | ⬜ pending |
-| 1-01-07 | 01 | 1 | DB-04 | smoke | `pytest tests/test_security.py::test_no_hardcoded_credentials -x` | ❌ W0 | ⬜ pending |
-| 1-01-08 | 01 | 1 | ARCH-02 | smoke | `pytest tests/test_architecture.py::test_sql_only_in_db_manager -x` | ❌ W0 | ⬜ pending |
-| 1-01-09 | 01 | 1 | ARCH-04 | smoke | `pytest tests/test_architecture.py::test_module_structure -x` | ❌ W0 | ⬜ pending |
+| 1-01-01 | 01 | 0 | SETUP-01 | unit | `pytest tests/test_db_manager.py::test_create_game -x` | ✅ | ✅ green |
+| 1-01-02 | 01 | 0 | SETUP-02 | unit | `pytest tests/test_db_manager.py::test_create_game_defaults -x` | ✅ | ✅ green |
+| 1-01-03 | 01 | 0 | SETUP-03 | unit | `pytest tests/test_db_manager.py::test_create_game_starting_airport -x` | ✅ | ✅ green |
+| 1-01-04 | 01 | 0 | SETUP-04 | unit | `pytest tests/test_db_manager.py::test_get_latest_game -x` | ✅ | ✅ green |
+| 1-01-05 | 01 | 1 | DB-01 | integration | `pytest tests/test_migrations.py::test_schema_after_migration -x` | ✅ | ✅ green |
+| 1-01-06 | 01 | 1 | DB-02 | integration | `pytest tests/test_db_manager.py::test_persistence_roundtrip -x` | ✅ | ✅ green |
+| 1-01-07 | 01 | 1 | DB-04 | smoke | `pytest tests/test_security.py::test_no_hardcoded_credentials -x` | ✅ | ✅ green |
+| 1-01-08 | 01 | 1 | ARCH-02 | smoke | `pytest tests/test_architecture.py::test_sql_only_in_db_manager -x` | ✅ | ✅ green |
+| 1-01-09 | 01 | 1 | ARCH-04 | smoke | `pytest tests/test_architecture.py::test_module_structure -x` | ✅ | ✅ green |
 
 *Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky*
 
@@ -54,14 +55,14 @@ created: 2026-03-09
 
 ## Wave 0 Requirements
 
-- [ ] `tests/__init__.py` — empty, marks tests as package
-- [ ] `tests/conftest.py` — shared fixtures (test DB connection, teardown)
-- [ ] `tests/test_db_manager.py` — stubs for SETUP-01, SETUP-02, SETUP-03, SETUP-04, DB-02
-- [ ] `tests/test_migrations.py` — stub for DB-01
-- [ ] `tests/test_security.py` — stub for DB-04 (grep-based, no DB needed)
-- [ ] `tests/test_architecture.py` — stubs for ARCH-02, ARCH-04 (import + grep-based, no DB needed)
-- [ ] `pip install pytest` — pytest not detected in project
-- [ ] `pip install mysql-connector-python` — not yet installed; verify Python 3.14 compat
+- [x] `tests/__init__.py` — empty, marks tests as package
+- [x] `tests/conftest.py` — shared fixtures (test DB connection, teardown)
+- [x] `tests/test_db_manager.py` — stubs for SETUP-01, SETUP-02, SETUP-03, SETUP-04, DB-02
+- [x] `tests/test_migrations.py` — stub for DB-01
+- [x] `tests/test_security.py` — stub for DB-04 (grep-based, no DB needed)
+- [x] `tests/test_architecture.py` — stubs for ARCH-02, ARCH-04 (import + grep-based, no DB needed)
+- [x] `pip install pytest` — pytest 9.0.2 installed
+- [x] `pip install mysql-connector-python` — 9.6.0 installed, confirmed on Python 3.14
 
 ---
 
@@ -76,11 +77,23 @@ created: 2026-03-09
 
 ## Validation Sign-Off
 
-- [ ] All tasks have `<automated>` verify or Wave 0 dependencies
-- [ ] Sampling continuity: no 3 consecutive tasks without automated verify
-- [ ] Wave 0 covers all MISSING references
-- [ ] No watch-mode flags
-- [ ] Feedback latency < 10s
-- [ ] `nyquist_compliant: true` set in frontmatter
+- [x] All tasks have `<automated>` verify or Wave 0 dependencies
+- [x] Sampling continuity: no 3 consecutive tasks without automated verify
+- [x] Wave 0 covers all MISSING references
+- [x] No watch-mode flags
+- [x] Feedback latency < 10s (9 tests in 0.25s)
+- [x] `nyquist_compliant: true` set in frontmatter
 
-**Approval:** pending
+**Approval:** 2026-03-09 — all 9/9 tests pass
+
+---
+
+## Validation Audit 2026-03-09
+
+| Metric | Count |
+|--------|-------|
+| Gaps found | 0 |
+| Resolved | 0 |
+| Escalated | 0 |
+| Tests passing | 9/9 |
+| Runtime | 0.25s |
