@@ -20,6 +20,8 @@ def db_connection():
             password=config.DB_PASSWORD,
             database=config.DB_NAME
         )
+        import db_manager
+        db_manager.run_migrations()
         yield conn
         conn.close()
     except Exception as e:
