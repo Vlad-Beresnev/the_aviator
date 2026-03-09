@@ -60,5 +60,10 @@ The player can navigate a global airport network, manage battery/money constrain
 | global_awareness as win metric (not CO2) | Aligns with sustainable development narrative; avoids penalizing the player for flying | — Pending |
 | Forced landing on battery empty (not game over) | Keeps game flowing; adds penalty without frustration of hard restart | — Pending |
 
+## External References
+
+- **Finnish open data portal**: https://avoindata.suomi.fi/fi — national open data catalogue; potential source for additional aviation or geographic datasets
+- **Metropolia assignment example**: https://github.com/ilkkamtk/software-1-project-example — reference implementation showing expected structure and scope for Ohjelmisto 1 coursework
+
 ---
 *Last updated: 2026-03-09 after initialization*
