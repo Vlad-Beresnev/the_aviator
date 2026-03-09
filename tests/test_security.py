@@ -11,6 +11,9 @@ def test_no_hardcoded_credentials():
         norm = os.path.normpath(path)
         if norm in {os.path.normpath(e) for e in excluded}:
             continue
+        # Skip virtual environment directories
+        if norm.startswith("venv" + os.sep) or norm.startswith(".venv" + os.sep):
+            continue
         with open(path) as f:
             for i, line in enumerate(f, 1):
                 lower = line.lower()
