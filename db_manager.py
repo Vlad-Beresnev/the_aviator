@@ -29,6 +29,8 @@ def run_migrations():
     cursor = conn.cursor()
 
     # Create game table if not exists (game table does NOT exist in lp_project_base.sql)
+    # ENGINE=InnoDB and CHARACTER SET latin1 on current_airport must match airport.ident
+    # (airport table is latin1); mismatched charsets cause errno 150 on FK creation.
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS game (
             id INT AUTO_INCREMENT PRIMARY KEY,
@@ -36,9 +38,9 @@ def run_migrations():
             money INT DEFAULT 5000,
             battery_used DOUBLE DEFAULT 0,
             global_awareness INT DEFAULT 0,
-            current_airport VARCHAR(40),
+            current_airport VARCHAR(40) CHARACTER SET latin1,
             FOREIGN KEY (current_airport) REFERENCES airport(ident)
-        )
+        ) ENGINE=InnoDB DEFAULT CHARSET=latin1
     """)
 
     # Add is_unlocked to airport table if missing (idempotent — MariaDB IF NOT EXISTS syntax)
