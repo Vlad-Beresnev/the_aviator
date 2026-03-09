@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 01-foundation-02-PLAN.md
-last_updated: "2026-03-09T18:00:02.879Z"
+stopped_at: Completed 01-foundation-03-PLAN.md
+last_updated: "2026-03-09T18:03:15.471Z"
 last_activity: "2026-03-09 - Completed quick task 1: Update plan with db files, Finnish open API, and project example before discussion"
 progress:
   total_phases: 4
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 3
-  completed_plans: 2
+  completed_plans: 3
   percent: 0
 ---
 
@@ -52,6 +52,7 @@ Progress: [░░░░░░░░░░] 0%
 *Updated after each plan completion*
 | Phase 01-foundation P01 | 2 | 2 tasks | 8 files |
 | Phase 01-foundation P02 | 3 | 2 tasks | 2 files |
+| Phase 01-foundation P03 | 1 | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -69,6 +70,8 @@ Recent decisions affecting current work:
 - [Phase 01-foundation]: Fail-fast EnvironmentError on config.py import if DB credentials missing — surfaces config issues before cryptic mysql failures
 - [Phase 01-foundation]: Open/close connection per function (no pooling) in db_manager.py — appropriate for assignment scope
 - [Phase 01-foundation]: dictionary=True cursor in get_latest_game — returns dict directly, no manual column mapping
+- [Phase 01-foundation]: Stubs import only their designated upstream module, enforcing ARCH-02 SQL boundary without .env credentials
+- [Phase 01-foundation]: game_logic.py imports config for Phase 2 game constants; main.py requires .env to run as script but arch tests remain green without it
 
 ### Pending Todos
 
@@ -87,6 +90,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-09T18:00:02.876Z
-Stopped at: Completed 01-foundation-02-PLAN.md
+Last session: 2026-03-09T18:03:15.469Z
+Stopped at: Completed 01-foundation-03-PLAN.md
 Resume file: None

@@ -12,7 +12,7 @@ The Aviator is built bottom-up along its dependency graph: the database and conf
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Foundation** - Database schema, credentials, and module skeleton are in place
+- [x] **Phase 1: Foundation** - Database schema, credentials, and module skeleton are in place (completed 2026-03-09)
 - [ ] **Phase 2: Service Layer** - Airport navigation and player state services deliver the core game loop actions
 - [ ] **Phase 3: Game Controller** - Controller orchestrates services into game rules, win conditions, and forced landing
 - [ ] **Phase 4: CLI and Polish** - Terminal game loop, status display, input validation, and win screen complete the playable game
@@ -77,7 +77,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 2/3 | In Progress|  |
+| 1. Foundation | 3/3 | Complete   | 2026-03-09 |
 | 2. Service Layer | 0/TBD | Not started | - |
 | 3. Game Controller | 0/TBD | Not started | - |
 | 4. CLI and Polish | 0/TBD | Not started | - |
