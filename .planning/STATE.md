@@ -12,7 +12,7 @@ See: .planning/PROJECT.md (updated 2026-03-09)
 Phase: 1 of 4 (Foundation)
 Plan: 0 of TBD in current phase
 Status: Ready to plan
-Last activity: 2026-03-09 — Roadmap created, ready to plan Phase 1
+Last activity: 2026-03-09 - Completed quick task 1: Update plan with db files, Finnish open API, and project example before discussion
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -55,6 +55,12 @@ None yet.
 
 - [Research]: Schema state of existing MariaDB instance not yet verified — Phase 1 must audit actual columns before writing migrations
 - [Research]: Win condition continent-spread threshold (how many continents) — validate against assignment spec during Phase 3
+
+### Quick Tasks Completed
+
+| # | Description | Date | Commit | Directory |
+|---|-------------|------|--------|-----------|
+| 1 | Update plan with db files, Finnish open API, and project example before discussion | 2026-03-09 | b50941c | [1-update-plan-with-db-files-finnish-open-a](.planning/quick/1-update-plan-with-db-files-finnish-open-a/) |
 
 ## Session Continuity
 
