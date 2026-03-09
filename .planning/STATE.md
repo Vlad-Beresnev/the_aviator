@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-03-09)
 Phase: 1 of 4 (Foundation)
 Plan: 0 of TBD in current phase
 Status: Ready to plan
-Last activity: 2026-03-09 - Completed quick task 1: Update plan with db files, Finnish open API, and project example before discussion
+Last activity: 2026-03-09 - Completed quick task 2: fix failing tests: game table missing, hardcoded credentials, schema migration issues
 
 Progress: [░░░░░░░░░░] 0%
 
