@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Phase 1 context gathered
-last_updated: "2026-03-09T17:36:24.693Z"
+stopped_at: Completed 01-foundation-01-PLAN.md
+last_updated: "2026-03-09T17:56:55.545Z"
 last_activity: "2026-03-09 - Completed quick task 1: Update plan with db files, Finnish open API, and project example before discussion"
 progress:
   total_phases: 4
   completed_phases: 0
-  total_plans: 0
-  completed_plans: 0
+  total_plans: 3
+  completed_plans: 1
   percent: 0
 ---
 
@@ -50,6 +50,7 @@ Progress: [░░░░░░░░░░] 0%
 - Trend: -
 
 *Updated after each plan completion*
+| Phase 01-foundation P01 | 2 | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -62,6 +63,8 @@ Recent decisions affecting current work:
 - [Init]: Services must return plain dicts only — guarantees JSON-serializability for Phase 2
 - [Init]: All SQL confined to db_manager.py — enforced from first commit, not retrofit
 - [Init]: Forced landing (teleport + penalty) instead of game over — keeps game flowing
+- [Phase 01-foundation]: mysql-connector-python used (not PyMySQL) — assignment constraint, confirmed working on Python 3.14
+- [Phase 01-foundation]: db_connection fixture uses pytest.skip when .env absent — allows CI without credentials
 
 ### Pending Todos
 
@@ -80,6 +83,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-09T17:36:24.691Z
-Stopped at: Phase 1 context gathered
-Resume file: .planning/phases/01-foundation/01-CONTEXT.md
+Last session: 2026-03-09T17:56:55.543Z
+Stopped at: Completed 01-foundation-01-PLAN.md
+Resume file: None

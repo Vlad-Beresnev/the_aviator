@@ -53,14 +53,14 @@
 - [ ] **DB-01**: Schema migrations applied: game table has money, global_awareness, battery_used columns; airport table has is_unlocked column
 - [ ] **DB-02**: All game state persists in MariaDB — no in-memory-only state
 - [ ] **DB-03**: Multi-step state updates (fly action: battery + location + unlock) are wrapped in a single transaction
-- [ ] **DB-04**: Database credentials loaded from .env file — never hardcoded in source code
+- [x] **DB-04**: Database credentials loaded from .env file — never hardcoded in source code
 
 ### Code Architecture
 
 - [ ] **ARCH-01**: Services return plain Python dicts/lists only — no class instances or mutable objects
-- [ ] **ARCH-02**: All SQL is contained in db_manager.py — no SQL strings in service or logic layers
+- [x] **ARCH-02**: All SQL is contained in db_manager.py — no SQL strings in service or logic layers
 - [ ] **ARCH-03**: No print() calls outside main.py — services and game_logic return data only
-- [ ] **ARCH-04**: Module structure matches assignment: config.py, db_manager.py, airport_service.py, player_service.py, game_logic.py, main.py
+- [x] **ARCH-04**: Module structure matches assignment: config.py, db_manager.py, airport_service.py, player_service.py, game_logic.py, main.py
 
 ## v2 Requirements
 
@@ -123,11 +123,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DB-01 | Phase 1 | Pending |
 | DB-02 | Phase 1 | Pending |
 | DB-03 | Phase 3 | Pending |
-| DB-04 | Phase 1 | Pending |
+| DB-04 | Phase 1 | Complete |
 | ARCH-01 | Phase 2 | Pending |
-| ARCH-02 | Phase 1 | Pending |
+| ARCH-02 | Phase 1 | Complete |
 | ARCH-03 | Phase 2 | Pending |
-| ARCH-04 | Phase 1 | Pending |
+| ARCH-04 | Phase 1 | Complete |
 
 **Coverage:**
 - v1 requirements: 33 total
