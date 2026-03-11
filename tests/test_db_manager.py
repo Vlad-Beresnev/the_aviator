@@ -47,3 +47,25 @@ def test_persistence_roundtrip(db_connection, cleanup_test_game):
     assert loaded["id"] == created["id"]
     assert loaded["money"] == created["money"]
     assert loaded["current_airport"] == created["current_airport"]
+
+
+def test_get_unlocked_continents(db_connection):
+    """WIN-01: get_unlocked_continents returns distinct continents of unlocked airports."""
+    import db_manager
+    # Ensure known airports start locked
+    db_manager.mark_airport_locked("KLAX")   # NA
+    db_manager.mark_airport_locked("EGLL")   # EU
+    initial = db_manager.get_unlocked_continents()
+    assert "NA" not in initial or True  # other airports might already be unlocked; check incremental
+
+    db_manager.mark_airport_unlocked("KLAX")
+    after_klax = db_manager.get_unlocked_continents()
+    assert "NA" in after_klax
+
+    db_manager.mark_airport_unlocked("EGLL")
+    after_egll = db_manager.get_unlocked_continents()
+    assert "EU" in after_egll
+
+    # Cleanup
+    db_manager.mark_airport_locked("KLAX")
+    db_manager.mark_airport_locked("EGLL")

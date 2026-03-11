@@ -29,9 +29,11 @@ def db_connection():
 
 @pytest.fixture
 def cleanup_test_game(db_connection):
-    """Delete test game rows created during tests."""
+    """Delete test game rows created during tests and reset any airports unlocked by tests."""
     yield
     cursor = db_connection.cursor()
     cursor.execute("DELETE FROM game WHERE name LIKE 'TEST_%'")
+    # Reset is_unlocked for airports touched by tests (KLAX is used in multiple tests)
+    cursor.execute("UPDATE airport SET is_unlocked = 0 WHERE ident = 'KLAX'")
     db_connection.commit()
     cursor.close()

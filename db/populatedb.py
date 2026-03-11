@@ -1,12 +1,17 @@
+import os
+import sys
 import mysql.connector
+from dotenv import load_dotenv
 
-# Establish a connection to the MariaDB server
+# Load .env from project root
+load_dotenv(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), ".env"))
+
 conn = mysql.connector.connect(
-    user="username",
-    password="password",
-    host="mysql.metropolia.fi",
-    port=3306,
-    database="username"
+    user=os.getenv("DB_USER"),
+    password=os.getenv("DB_PASSWORD"),
+    host=os.getenv("DB_HOST", "localhost"),
+    port=int(os.getenv("DB_PORT", "3306")),
+    database=os.getenv("DB_NAME"),
 )
 
 # Open the SQL file and read the contents

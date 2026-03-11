@@ -13,6 +13,8 @@ REQUIRED_MODULES = [
     "player_service",
     "game_logic",
     "main",
+    "sprites",
+    "action_game",
 ]
 
 SQL_KEYWORDS = ("SELECT ", "INSERT ", "UPDATE ", "DELETE ", "CREATE TABLE", "ALTER TABLE")
@@ -40,8 +42,12 @@ def test_sql_only_in_db_manager():
                 stripped = line.strip()
                 if stripped.startswith("#"):
                     continue
+                upper = line.upper()
+                # Skip lines that are clearly Python code using Rich Table, not SQL
+                if "TABLE(" in upper and ("TITLE=" in upper or "ADD_COLUMN" in upper or "ADD_ROW" in upper):
+                    continue
                 for kw in SQL_KEYWORDS:
-                    if kw in line.upper():
+                    if kw in upper:
                         violations.append(f"{path}:{i}: {line.rstrip()}")
                         break
     assert not violations, f"SQL found outside db_manager.py:\n" + "\n".join(violations)
