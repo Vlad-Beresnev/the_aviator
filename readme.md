@@ -46,7 +46,11 @@ pip install -r requirements.txt
 
 ## Database Setup
 
-1. **Create a MySQL/MariaDB database** for the project.
+1. **Create a MariaDB database** for the project:
+
+   ```sql
+   CREATE DATABASE the_aviator;
+   ```
 
 2. **Copy and fill in your credentials:**
 
