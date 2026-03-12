@@ -229,11 +229,17 @@ def action_deliver_lecture(state: dict) -> dict:
 
     if selected["locked"]:
         prev = selected["level"] - 1
+        _clear_screen()
         console.print(f"[red]This level is locked. Beat level {prev} first![/red]")
+        console.print("[dim]  Press any key to continue...[/dim]")
+        _read_key()
         return state
 
     if selected["beaten"]:
+        _clear_screen()
         console.print("[yellow]You already beat this level.[/yellow]")
+        console.print("[dim]  Press any key to continue...[/dim]")
+        _read_key()
         return state
 
     # Launch the Pygame action game
@@ -251,9 +257,15 @@ def action_deliver_lecture(state: dict) -> dict:
         # Award speaker fee and mark level as beaten
         updated = game_logic.deliver_lecture(state, selected["ident"])
         if "error" in updated:
+            _clear_screen()
             console.print(f"[red]{updated['error']}[/red]")
+            console.print("[dim]  Press any key to continue...[/dim]")
+            _read_key()
             return state
+        _clear_screen()
         console.print(f"[green]Level complete! Earned ${selected['speaker_fee']:,}. 🎉[/green]")
+        console.print("[dim]  Press any key to continue...[/dim]")
+        _read_key()
 
         # Update battery from game result
         new_battery_used = config.MAX_BATTERY - result["battery_remaining"]
@@ -262,7 +274,6 @@ def action_deliver_lecture(state: dict) -> dict:
 
         return updated
     else:
-        console.print("[red]Level failed! Starting a new game...[/red]")
         return {**state, "game_over": True}
 
 
@@ -271,10 +282,16 @@ def action_reload(state: dict) -> dict:
     result = game_logic.recharge(state)
 
     if "error" in result:
+        _clear_screen()
         console.print(f"[red]{result['error']}[/red]")
+        console.print("[dim]  Press any key to continue...[/dim]")
+        _read_key()
         return state
 
+    _clear_screen()
     console.print(f"[green]Battery reloaded! Cost: ${config.RELOAD_COST:,}. Ready to fight! 🔋[/green]")
+    console.print("[dim]  Press any key to continue...[/dim]")
+    _read_key()
     return result
 
 
@@ -285,20 +302,23 @@ def action_reload(state: dict) -> dict:
 def game_loop(state: dict) -> None:
     """Main game loop: show status header, present 3 actions, repeat."""
     while True:
-        show_status(state)
-
         # Restart on game-over (level failed)
         if state.get("game_over"):
+            _clear_screen()
+            show_status(state)
             console.print(Panel(
                 "[bold red]Your plane went down. Starting a new game![/bold red]",
                 title="GAME OVER", border_style="red",
             ))
+            console.print("[dim]  Press any key to start a new game...[/dim]")
+            _read_key()
             state = game_logic.new_game(state["name"])
-            console.print(f"[green]New game started for {state['name']}![/green]")
             continue
 
         # Check win from previous action
         if state.get("won"):
+            _clear_screen()
+            show_status(state)
             console.print(Panel(
                 "[bold green]You conquered every level! "
                 "Electric aviation dominates the skies! ⚡[/bold green]",
