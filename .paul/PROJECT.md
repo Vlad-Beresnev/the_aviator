@@ -33,9 +33,15 @@ Players can experience The Aviator game entirely in-browser — no terminal need
   - GET /airports, GET /airports/{ident} (JWT-protected)
   - POST /game/start (idempotent), GET /game/state, POST /game/complete-level
   - GET /scores (public leaderboard endpoint)
+- ✓ Next.js 16 frontend scaffold with working auth flow — Phase 2
+  - Route groups (auth)/ and (game)/, 5 stub pages + root redirect
+  - lib/api.ts typed fetch wrapper for all 8 Phase 1 endpoints
+  - AuthContext (localStorage + cookie dual-store), useAuth hook
+  - proxy.ts route guard — /map and /game/* require auth
+  - Working login/register forms
 
 ### Active (In Progress)
-- Phase 2: Next.js Frontend Scaffold — auth flow, protected routes
+- Phase 3: World Map — React-Leaflet interactive level select
 
 ### Planned (Next)
 - Phase 3: World Map — React-Leaflet interactive level select
@@ -88,6 +94,8 @@ Solo project on Hetzner VPS. Self-hosted deployment. Fixed infrastructure — no
 | React-Leaflet for world map | Free (OpenStreetMap tiles), no API key, React-native integration, marker clustering support | 2026-05-06 | Active |
 | Phaser.js for browser game | Industry-standard game framework, TypeScript support, handles sprite rendering + collision | 2026-05-06 | Active |
 | JWT in localStorage (MVP) | Simple to implement; upgrade to httpOnly cookies post-MVP | 2026-05-06 | Active |
+| Next.js 16 proxy.ts (not middleware.ts) | Next.js 16 renamed route guard file; export is `proxy`; middleware.ts is deprecated | 2026-05-06 | Active |
+| Dual-store auth (localStorage + cookie) | apiFetch reads localStorage for Bearer; proxy.ts (Edge Runtime) reads cookie — login() syncs both | 2026-05-06 | Active |
 | Filter to large_airport only (~200–300) | All 6,899 airports would overwhelm the map; only those with goal records are levels | 2026-05-06 | Active |
 
 ## Success Metrics
@@ -95,7 +103,7 @@ Solo project on Hetzner VPS. Self-hosted deployment. Fixed infrastructure — no
 | Metric | Target | Current | Status |
 |--------|--------|---------|--------|
 | Phase 1: API responds | `curl localhost:8000/airports` returns airport JSON | 451 airports, all endpoints verified | ✅ Complete |
-| Phase 2: Auth flow | Register → login → access /map (redirect if not logged in) | - | Not started |
+| Phase 2: Auth flow | Register → login → access /map (redirect if not logged in) | register, login, proxy redirect all verified | ✅ Complete |
 | Phase 3: Map loads | 200–300 markers visible, click shows airport panel | - | Not started |
 | Phase 4: Game playable | Navigate to /game/EGLL, canvas renders, can win/lose | - | Not started |
 | Phase 5: Leaderboard | /leaderboard shows top players without login | - | Not started |
@@ -123,4 +131,4 @@ Solo project on Hetzner VPS. Self-hosted deployment. Fixed infrastructure — no
 
 ---
 *PROJECT.md — Updated when requirements or context change*
-*Last updated: 2026-05-06 after Phase 1*
+*Last updated: 2026-05-06 after Phase 2*

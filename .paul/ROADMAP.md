@@ -8,14 +8,14 @@ Transform a working Python CLI game into a full browser experience: FastAPI wrap
 
 **v0.1 Web MVP** (v0.1.0)
 Status: In progress
-Phases: 1 of 5 complete
+Phases: 2 of 5 complete
 
 ## Phases
 
 | Phase | Name | Plans | Status | Completed |
 |-------|------|-------|--------|-----------|
 | 1 | FastAPI API Layer | 2 | ✅ Complete | 2026-05-06 |
-| 2 | Next.js Frontend Scaffold | TBD | Not started | - |
+| 2 | Next.js Frontend Scaffold | 2 | ✅ Complete | 2026-05-06 |
 | 3 | World Map (Level Select) | TBD | Not started | - |
 | 4 | Browser Action Game | TBD | Not started | - |
 | 5 | Public Leaderboard | TBD | Not started | - |
@@ -56,7 +56,8 @@ Phases: 1 of 5 complete
 - JWT stored in localStorage (MVP)
 
 **Plans:**
-- [ ] 02-01: TBD — defined during /paul:plan
+- [x] 02-01: Scaffold + route groups + lib/api.ts + CORS (complete)
+- [ ] 02-02: Auth context + middleware (useAuth hook, JWT localStorage, protected routes)
 
 ---
 
@@ -114,4 +115,4 @@ Phases: 1 of 5 complete
 ---
 
 *Roadmap created: 2026-05-06*
-*Last updated: 2026-05-06 — Phase 1 complete*
+*Last updated: 2026-05-06 — Phase 2 complete*
