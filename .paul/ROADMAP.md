@@ -8,7 +8,7 @@ Transform a working Python CLI game into a full browser experience: FastAPI wrap
 
 **v0.1 Web MVP** (v0.1.0)
 Status: In progress
-Phases: 2 of 5 complete
+Phases: 3 of 5 complete
 
 ## Phases
 
@@ -16,7 +16,7 @@ Phases: 2 of 5 complete
 |-------|------|-------|--------|-----------|
 | 1 | FastAPI API Layer | 2 | ✅ Complete | 2026-05-06 |
 | 2 | Next.js Frontend Scaffold | 2 | ✅ Complete | 2026-05-06 |
-| 3 | World Map (Level Select) | TBD | Not started | - |
+| 3 | World Map (Level Select) | 1 | ✅ Complete | 2026-05-06 |
 | 4 | Browser Action Game | TBD | Not started | - |
 | 5 | Public Leaderboard | TBD | Not started | - |
 
@@ -75,7 +75,7 @@ Phases: 2 of 5 complete
 - URL params preserve map zoom/center state
 
 **Plans:**
-- [ ] 03-01: TBD — defined during /paul:plan
+- [x] 03-01: Map foundation + airport panel + URL state
 
 ---
 
@@ -115,4 +115,4 @@ Phases: 2 of 5 complete
 ---
 
 *Roadmap created: 2026-05-06*
-*Last updated: 2026-05-06 — Phase 2 complete*
+*Last updated: 2026-05-06 — Phase 3 complete*

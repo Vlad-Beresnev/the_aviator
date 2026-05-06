@@ -39,12 +39,17 @@ Players can experience The Aviator game entirely in-browser — no terminal need
   - AuthContext (localStorage + cookie dual-store), useAuth hook
   - proxy.ts route guard — /map and /game/* require auth
   - Working login/register forms
+- ✓ Interactive world map with colored airport markers and level-select panel — Phase 3
+  - React-Leaflet map at /map with ~200-300 clustered airport markers
+  - Markers color-coded: yellow (open), green (beaten), red (locked)
+  - Click-to-open panel: name, city, level, difficulty stars, reward, Play Level link
+  - URL-persisted zoom/center state (?lat=X&lng=Y&zoom=Z)
+  - GET /airports now includes latitude_deg, longitude_deg
 
 ### Active (In Progress)
-- Phase 3: World Map — React-Leaflet interactive level select
+- Phase 4: Browser Action Game — Phaser.js port of Pygame shooter
 
 ### Planned (Next)
-- Phase 3: World Map — React-Leaflet interactive level select
 - Phase 4: Browser Action Game — Phaser.js port of Pygame shooter
 - Phase 5: Public Leaderboard — top players without login
 
@@ -97,6 +102,9 @@ Solo project on Hetzner VPS. Self-hosted deployment. Fixed infrastructure — no
 | Next.js 16 proxy.ts (not middleware.ts) | Next.js 16 renamed route guard file; export is `proxy`; middleware.ts is deprecated | 2026-05-06 | Active |
 | Dual-store auth (localStorage + cookie) | apiFetch reads localStorage for Bearer; proxy.ts (Edge Runtime) reads cookie — login() syncs both | 2026-05-06 | Active |
 | Filter to large_airport only (~200–300) | All 6,899 airports would overwhelm the map; only those with goal records are levels | 2026-05-06 | Active |
+| L.divIcon for map markers | Leaflet's default PNG icon has broken asset resolution in Next.js bundler; divIcon renders pure HTML/CSS | 2026-05-06 | Active |
+| markerClickedRef guard for click handling | react-leaflet-cluster makes stopPropagation unreliable; ref flag set on marker click prevents map click from clearing selection | 2026-05-06 | Active |
+| dynamic(ssr:false) in Client Component for Leaflet | Next.js 16 requires ssr:false inside "use client" component; Leaflet accesses window at import time | 2026-05-06 | Active |
 
 ## Success Metrics
 
@@ -104,7 +112,7 @@ Solo project on Hetzner VPS. Self-hosted deployment. Fixed infrastructure — no
 |--------|--------|---------|--------|
 | Phase 1: API responds | `curl localhost:8000/airports` returns airport JSON | 451 airports, all endpoints verified | ✅ Complete |
 | Phase 2: Auth flow | Register → login → access /map (redirect if not logged in) | register, login, proxy redirect all verified | ✅ Complete |
-| Phase 3: Map loads | 200–300 markers visible, click shows airport panel | - | Not started |
+| Phase 3: Map loads | 200–300 markers visible, click shows airport panel | Markers visible, panel opens on click, URL state persists | ✅ Complete |
 | Phase 4: Game playable | Navigate to /game/EGLL, canvas renders, can win/lose | - | Not started |
 | Phase 5: Leaderboard | /leaderboard shows top players without login | - | Not started |
 | E2E flow | Register → Login → Map → Click airport → Play → Win → Score updated | - | Not started |
@@ -131,4 +139,4 @@ Solo project on Hetzner VPS. Self-hosted deployment. Fixed infrastructure — no
 
 ---
 *PROJECT.md — Updated when requirements or context change*
-*Last updated: 2026-05-06 after Phase 2*
+*Last updated: 2026-05-06 after Phase 3*

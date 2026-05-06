@@ -6,12 +6,15 @@ export interface TokenResponse {
 export interface Airport {
   ident: string;
   name: string;
-  municipality: string;
+  city: string;
   latitude_deg: number;
   longitude_deg: number;
   continent: string;
-  type: string;
-  is_unlocked: number; // MySQL tinyint: 0 = locked, 1 = unlocked
+  beaten: boolean;
+  locked: boolean;
+  level: number;
+  difficulty: number;
+  speaker_fee: number;
 }
 
 export interface GameState {

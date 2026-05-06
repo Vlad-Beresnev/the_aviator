@@ -56,6 +56,8 @@ def get_level_airports() -> list:
             "ident": ap["ident"],
             "name": ap["name"],
             "city": ap["municipality"],
+            "latitude_deg": ap["latitude_deg"],
+            "longitude_deg": ap["longitude_deg"],
             "speaker_fee": goal.get("speaker_fee", 0),
             "difficulty": goal.get("difficulty", 1),
             "continent": ap["continent"],

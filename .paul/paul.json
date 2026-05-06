@@ -7,9 +7,9 @@
     "status": "in_progress"
   },
   "phase": {
-    "number": 2,
-    "name": "Next.js Frontend Scaffold",
-    "status": "not_started"
+    "number": 3,
+    "name": "World Map (Level Select)",
+    "status": "complete"
   },
   "loop": {
     "plan": null,
