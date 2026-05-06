@@ -80,6 +80,20 @@ def run_migrations():
             rows
         )
 
+    # Create users table for web auth (web-only — CLI is unaffected)
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS users (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            username VARCHAR(100) NOT NULL UNIQUE,
+            password_hash VARCHAR(255) NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+    """)
+
+    # Add user_id to game for web sessions (nullable — CLI rows have no user_id)
+    if not _column_exists(cursor, "game", "user_id"):
+        cursor.execute("ALTER TABLE game ADD COLUMN user_id INT NULL")
+
     conn.commit()
     cursor.close()
     conn.close()
@@ -333,6 +347,25 @@ def deliver_lecture_transaction(game_id: int, airport_ident: str, new_money: flo
     finally:
         cursor.close()
         conn.close()
+
+
+def get_top_scores(limit: int = 20) -> list:
+    """Return top players by money. One row per player (latest game row per name)."""
+    conn = _get_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("""
+        SELECT g.name, g.money, g.global_awareness
+        FROM game g
+        INNER JOIN (
+            SELECT name, MAX(id) AS max_id FROM game GROUP BY name
+        ) latest ON g.id = latest.max_id
+        ORDER BY g.money DESC
+        LIMIT %s
+    """, (limit,))
+    rows = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return rows
 
 
 def delete_test_game(player_name: str) -> None:

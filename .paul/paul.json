@@ -1,0 +1,25 @@
+{
+  "name": "The Aviator — Web Frontend",
+  "version": "0.0.0",
+  "milestone": {
+    "name": "v0.1 Web MVP",
+    "version": "0.1.0",
+    "status": "in_progress"
+  },
+  "phase": {
+    "number": 2,
+    "name": "Next.js Frontend Scaffold",
+    "status": "not_started"
+  },
+  "loop": {
+    "plan": null,
+    "position": "IDLE"
+  },
+  "timestamps": {
+    "created_at": "2026-05-06T00:00:00Z",
+    "updated_at": "2026-05-06T00:00:00Z"
+  },
+  "satellite": {
+    "groom": true
+  }
+}
