@@ -7,8 +7,8 @@ Transform a working Python CLI game into a full browser experience: FastAPI wrap
 ## Current Milestone
 
 **v0.1 Web MVP** (v0.1.0)
-Status: In progress
-Phases: 3 of 5 complete
+Status: Complete
+Phases: 5 of 5 complete
 
 ## Phases
 
@@ -17,8 +17,8 @@ Phases: 3 of 5 complete
 | 1 | FastAPI API Layer | 2 | ✅ Complete | 2026-05-06 |
 | 2 | Next.js Frontend Scaffold | 2 | ✅ Complete | 2026-05-06 |
 | 3 | World Map (Level Select) | 1 | ✅ Complete | 2026-05-06 |
-| 4 | Browser Action Game | TBD | Not started | - |
-| 5 | Public Leaderboard | TBD | Not started | - |
+| 4 | Browser Action Game | 2 | ✅ Complete | 2026-05-07 |
+| 5 | Public Leaderboard | 1 | ✅ Complete | 2026-05-07 |
 
 ## Phase Details
 
@@ -94,7 +94,8 @@ Phases: 3 of 5 complete
 - MVP sprites: colored rectangles (reuse sprite logic from `sprites.py` later)
 
 **Plans:**
-- [ ] 04-01: TBD — defined during /paul:plan
+- [x] 04-01: Game Foundation — Phaser install, game page, PreloadScene + GameScene (full game loop)
+- [x] 04-02: Result Flow + API — win/lose overlay, POST /game/complete-level, redirect to map
 
 ---
 
@@ -110,9 +111,9 @@ Phases: 3 of 5 complete
 - Refresh button + auto-refresh every 60 seconds
 
 **Plans:**
-- [ ] 05-01: TBD — defined during /paul:plan
+- [x] 05-01: Leaderboard page + extended scores query (created_at)
 
 ---
 
 *Roadmap created: 2026-05-06*
-*Last updated: 2026-05-06 — Phase 3 complete*
+*Last updated: 2026-05-07 — Phase 5 complete — v0.1 Web MVP shipped*

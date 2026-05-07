@@ -2,29 +2,29 @@
 
 ## Project Reference
 
-See: .paul/PROJECT.md (updated 2026-05-06)
+See: .paul/PROJECT.md (updated 2026-05-07)
 
 **Core value:** Players can experience The Aviator game entirely in-browser — world map level select, browser action game, public scores.
-**Current focus:** Phase 4 — Browser Action Game (Phaser.js)
+**Current focus:** v0.1 Web MVP — COMPLETE
 
 ## Current Position
 
-Milestone: v0.1 Web MVP (v0.1.0)
-Phase: 4 of 5 (Browser Action Game) — Not started
-Plan: Not started
-Status: Ready to plan Phase 4
-Last activity: 2026-05-06 — Phase 3 complete, transitioned to Phase 4
+Milestone: v0.1 Web MVP (v0.1.0) — **COMPLETE**
+Phase: 5 of 5 (Public Leaderboard) — Complete
+Plan: 05-01 complete
+Status: All phases unified — milestone complete
+Last activity: 2026-05-07 — Phase 5 complete, v0.1 Web MVP shipped
 
 Progress:
-- Milestone: [██████░░░░] 60%
-- Phase 4: [░░░░░░░░░░] 0%
+- Milestone: [██████████] 100%
+- Phase 5: [██████████] 100%
 
 ## Loop Position
 
 Current loop state:
 ```
 PLAN ──▶ APPLY ──▶ UNIFY
-  ○        ○        ○     [Phase 4 — ready to plan]
+  ✓        ✓        ✓     [Loop complete — v0.1 milestone done]
 ```
 
 ## Accumulated Context
@@ -43,19 +43,23 @@ PLAN ──▶ APPLY ──▶ UNIFY
 | L.divIcon for all map markers | Phase 3 | Avoids Leaflet's broken default icon asset resolution in Next.js bundler |
 | markerClickedRef guard | Phase 3 | `stopPropagation` unreliable through react-leaflet-cluster — ref flag guards map click from clearing selection |
 | dynamic(ssr:false) in "use client" | Phase 3 | Required by Next.js 16 — ssr:false only valid inside Client Components; Leaflet accesses window |
+| window.location.href for Back to Map | Phase 4 | Phaser module-scope PluginManager survives SPA nav (router.push) — second game load fails; full reload required |
+| earnedMoney ?? 0 in ResultOverlay | Phase 4 | speaker_fee undefined at runtime for some airports; TypeScript type doesn't match API reality |
+| game.created_at migration | Phase 5 | Column didn't exist in CREATE TABLE — added idempotent ALTER TABLE; existing rows backfilled with migration timestamp |
 
 ### Deferred Issues
 
 | Issue | Origin | Effort | Revisit |
 |-------|--------|--------|---------|
-| httpOnly cookie auth upgrade | Init | M | Post v0.1 ship |
-| Real sprite artwork (replace rectangles) | Init | M | Phase 4 polish or v0.2 |
-| Mobile map usability | Init | S | After leaderboard ships |
-| login/register use `<a href>` not `<Link>` | Phase 2 | S | When UI gets styled in later phases |
-| Token expiry not checked client-side | Phase 2 | S | Post-MVP auth hardening |
+| httpOnly cookie auth upgrade | Init | M | v0.2 |
+| Real sprite artwork (replace rectangles) | Init | M | v0.2 |
+| Mobile map usability | Init | S | v0.2 |
+| login/register use `<a href>` not `<Link>` | Phase 2 | S | v0.2 |
+| Token expiry not checked client-side | Phase 2 | S | v0.2 |
+| game rows created before Phase 5 migration show same created_at | Phase 5 | XS | v0.2 cosmetic |
 
 ### Git State
-Last commit: 9585cba
+Last commit: ca7a303 (pre-phase-5)
 Branch: main
 Feature branches merged: none
 
@@ -64,9 +68,9 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-05-06
-Stopped at: Phase 3 complete, transitioned to Phase 4
-Next action: /paul:plan for Phase 4 (Browser Action Game — Phaser.js)
+Last session: 2026-05-07
+Stopped at: v0.1 Web MVP milestone complete — all 5 phases unified
+Next action: /paul:complete-milestone to archive v0.1 and plan v0.2, or deploy to Hetzner VPS
 Resume file: .paul/ROADMAP.md
 
 ---

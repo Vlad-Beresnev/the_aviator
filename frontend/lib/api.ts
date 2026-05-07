@@ -17,6 +17,13 @@ export interface Airport {
   speaker_fee: number;
 }
 
+export interface AirportBounds {
+  south: number;
+  north: number;
+  west: number;
+  east: number;
+}
+
 export interface GameState {
   id: number;
   name: string;
@@ -32,6 +39,7 @@ export interface Score {
   name: string;
   money: number;
   global_awareness: number;
+  created_at: string;
 }
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000';
@@ -72,7 +80,18 @@ export const api = {
       body: JSON.stringify({ username, password }),
     }),
 
-  getAirports: () => apiFetch<Airport[]>('/airports'),
+  getAirports: (bounds?: AirportBounds) => {
+    if (!bounds) return apiFetch<Airport[]>('/airports');
+
+    const params = new URLSearchParams({
+      south: bounds.south.toFixed(6),
+      north: bounds.north.toFixed(6),
+      west: bounds.west.toFixed(6),
+      east: bounds.east.toFixed(6),
+    });
+
+    return apiFetch<Airport[]>(`/airports?${params.toString()}`);
+  },
 
   getAirport: (ident: string) => apiFetch<Airport>(`/airports/${ident}`),
 

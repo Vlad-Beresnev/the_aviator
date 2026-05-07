@@ -94,6 +94,12 @@ def run_migrations():
     if not _column_exists(cursor, "game", "user_id"):
         cursor.execute("ALTER TABLE game ADD COLUMN user_id INT NULL")
 
+    # Add created_at to game for leaderboard Last Active column
+    if not _column_exists(cursor, "game", "created_at"):
+        cursor.execute(
+            "ALTER TABLE game ADD COLUMN created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
+        )
+
     conn.commit()
     cursor.close()
     conn.close()
@@ -171,6 +177,37 @@ def get_all_large_airports() -> list:
     cursor.execute(
         "SELECT ident, name, municipality, latitude_deg, longitude_deg, continent, is_unlocked "
         "FROM airport WHERE type = 'large_airport'"
+    )
+    rows = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return rows
+
+
+def get_large_airports_in_bounds(
+    south: float,
+    north: float,
+    west: float,
+    east: float,
+) -> list:
+    """Return large airports inside a latitude/longitude viewport."""
+    conn = _get_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    params: list[float] = [south, north]
+    longitude_filter = "longitude_deg BETWEEN %s AND %s"
+    params.extend([west, east])
+
+    if west > east:
+        longitude_filter = "(longitude_deg >= %s OR longitude_deg <= %s)"
+
+    cursor.execute(
+        "SELECT ident, name, municipality, latitude_deg, longitude_deg, continent, is_unlocked "
+        "FROM airport "
+        "WHERE type = 'large_airport' "
+        "AND latitude_deg BETWEEN %s AND %s "
+        f"AND {longitude_filter}",
+        tuple(params),
     )
     rows = cursor.fetchall()
     cursor.close()
@@ -354,7 +391,7 @@ def get_top_scores(limit: int = 20) -> list:
     conn = _get_connection()
     cursor = conn.cursor(dictionary=True)
     cursor.execute("""
-        SELECT g.name, g.money, g.global_awareness
+        SELECT g.name, g.money, g.global_awareness, g.created_at
         FROM game g
         INNER JOIN (
             SELECT name, MAX(id) AS max_id FROM game GROUP BY name

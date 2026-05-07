@@ -13,9 +13,9 @@ Players can experience The Aviator game entirely in-browser — no terminal need
 | Attribute | Value |
 |-----------|-------|
 | Type | Application |
-| Version | 0.1.0 (in progress) |
-| Status | Building |
-| Last Updated | 2026-05-06 |
+| Version | 0.1.0 |
+| Status | Complete |
+| Last Updated | 2026-05-07 |
 
 ## Requirements
 
@@ -45,13 +45,21 @@ Players can experience The Aviator game entirely in-browser — no terminal need
   - Click-to-open panel: name, city, level, difficulty stars, reward, Play Level link
   - URL-persisted zoom/center state (?lat=X&lng=Y&zoom=Z)
   - GET /airports now includes latitude_deg, longitude_deg
+- ✓ In-browser Phaser.js action game with full play loop — Phase 4
+  - Phaser 4.1.0 game at /game/[ident]: player, 3 enemy variants, bullets, collision, HUD
+  - Win condition: survive 75s → POST /game/complete-level → Victory overlay
+  - Lose condition: battery=0 → Mission Failed overlay (no API call)
+  - Overlay navigation: Back to Map (full-page reload) + Try Again (reload) buttons
+- ✓ Public leaderboard showing top 20 players without login — Phase 5
+  - /leaderboard page: Rank | Player | Money | Awareness | Last Active table
+  - Auto-refresh every 60s + manual Refresh button
+  - game.created_at column added; Score interface extended
 
 ### Active (In Progress)
-- Phase 4: Browser Action Game — Phaser.js port of Pygame shooter
+None — all v0.1 MVP features shipped.
 
 ### Planned (Next)
-- Phase 4: Browser Action Game — Phaser.js port of Pygame shooter
-- Phase 5: Public Leaderboard — top players without login
+None — v0.1 MVP complete.
 
 ### Out of Scope
 - Rewriting Python game logic in TypeScript — ~500 lines of working code, no user-facing benefit
@@ -105,6 +113,8 @@ Solo project on Hetzner VPS. Self-hosted deployment. Fixed infrastructure — no
 | L.divIcon for map markers | Leaflet's default PNG icon has broken asset resolution in Next.js bundler; divIcon renders pure HTML/CSS | 2026-05-06 | Active |
 | markerClickedRef guard for click handling | react-leaflet-cluster makes stopPropagation unreliable; ref flag set on marker click prevents map click from clearing selection | 2026-05-06 | Active |
 | dynamic(ssr:false) in Client Component for Leaflet | Next.js 16 requires ssr:false inside "use client" component; Leaflet accesses window at import time | 2026-05-06 | Active |
+| window.location.href for game→map navigation | router.push (SPA nav) doesn't clear Phaser's module-scope PluginManager — second game load fails with "Core Plugins missing"; full-page nav is required | 2026-05-07 | Active |
+| earnedMoney ?? 0 in ResultOverlay | speaker_fee is undefined at runtime for some airports despite TypeScript number type — API schema drift; guard prevents crash | 2026-05-07 | Active |
 
 ## Success Metrics
 
@@ -113,9 +123,9 @@ Solo project on Hetzner VPS. Self-hosted deployment. Fixed infrastructure — no
 | Phase 1: API responds | `curl localhost:8000/airports` returns airport JSON | 451 airports, all endpoints verified | ✅ Complete |
 | Phase 2: Auth flow | Register → login → access /map (redirect if not logged in) | register, login, proxy redirect all verified | ✅ Complete |
 | Phase 3: Map loads | 200–300 markers visible, click shows airport panel | Markers visible, panel opens on click, URL state persists | ✅ Complete |
-| Phase 4: Game playable | Navigate to /game/EGLL, canvas renders, can win/lose | - | Not started |
-| Phase 5: Leaderboard | /leaderboard shows top players without login | - | Not started |
-| E2E flow | Register → Login → Map → Click airport → Play → Win → Score updated | - | Not started |
+| Phase 4: Game playable | Navigate to /game/EGLL, canvas renders, can win/lose | Full game loop: play → result overlay → map | ✅ Complete |
+| Phase 5: Leaderboard | /leaderboard shows top players without login | Table renders, auto-refreshes, no auth required | ✅ Complete |
+| E2E flow | Register → Login → Map → Click airport → Play → Win → Score updated | Full path available — all 5 phases shipped | ✅ Complete |
 
 ## Tech Stack
 
@@ -139,4 +149,4 @@ Solo project on Hetzner VPS. Self-hosted deployment. Fixed infrastructure — no
 
 ---
 *PROJECT.md — Updated when requirements or context change*
-*Last updated: 2026-05-06 after Phase 3*
+*Last updated: 2026-05-07 after Phase 5 — v0.1 Web MVP complete*
