@@ -3,7 +3,7 @@ services:
     name: aviator-api
     runtime: python
     buildCommand: pip install -r requirements-api.txt
-    startCommand: uvicorn api.main:app --host 0.0.0.0 --port $PORT
+    startCommand: python -m uvicorn api.main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: DB_HOST
         sync: false
