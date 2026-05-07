@@ -271,7 +271,11 @@ def run_level(level_number: int, difficulty: int, battery: int) -> dict:
     clock = pygame.time.Clock()
 
     # Scaling factors based on difficulty and level (base — ramps during play)
-    scale = 1.0 + (difficulty - 1) * 0.25 + (level_number - 1) * 0.08
+    level_bonus = min(
+        (level_number - 1) * config.LEVEL_SCALE_STEP,
+        config.MAX_LEVEL_SCALE_BONUS,
+    )
+    scale = 1.0 + (difficulty - 1) * config.DIFFICULTY_SCALE_STEP + level_bonus
     base_enemy_speed = config.ENEMY_BASE_SPEED * (0.8 + scale * 0.4)
     base_spawn_interval = max(10, int(config.ENEMY_BASE_SPAWN_INTERVAL / scale))
     base_fire_interval = max(15, int(config.ENEMY_BASE_FIRE_INTERVAL / scale))
@@ -329,17 +333,13 @@ def run_level(level_number: int, difficulty: int, battery: int) -> dict:
         # --- Update player ---
         player.update(keys, bounds)
 
-        # Auto-fire or space-fire
+        # Fire only while space is pressed
         if keys[pygame.K_SPACE] and player.can_fire():
             player_bullets.append(player.fire(bullet_player_img))
-        elif player.can_fire():
-            # Auto-fire at slower rate when not pressing space
-            if frame % (config.PLAYER_FIRE_INTERVAL * 3) == 0:
-                player_bullets.append(player.fire(bullet_player_img))
 
         # --- Spawn enemies (difficulty ramps up as time passes) ---
         progress = frame / duration_frames   # 0..1
-        ramp = 1.0 + progress * 0.6          # up to +60% harder by end
+        ramp = 1.0 + progress * config.IN_LEVEL_RAMP_MAX
         enemy_speed = base_enemy_speed * ramp
         spawn_interval = max(8, int(base_spawn_interval / ramp))
         fire_interval = max(12, int(base_fire_interval / ramp))

@@ -21,8 +21,13 @@ def _haversine(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
 
 def get_airport(ident: str) -> dict | None:
     """
-    Return the airport record for a given ident as a plain dict, or None if not found.
+    Return the playable level entry for a large airport ident, or the raw airport
+    record for non-level airports. Returns None if not found.
     """
+    for airport in get_level_airports():
+        if airport["ident"] == ident:
+            return airport
+
     return db_manager.get_airport(ident)
 
 
@@ -30,8 +35,8 @@ def get_level_airports() -> list:
     """
     Return all large airports as level entries sorted by difficulty ascending.
 
-    First INITIAL_LEVELS airports are playable immediately.
-    The rest are locked until all initial levels are beaten.
+    All level airports are playable immediately. Beaten state is still tracked
+    separately so rewards, completion, and win checks keep working.
 
     Each item:
         {
@@ -42,15 +47,29 @@ def get_level_airports() -> list:
             "difficulty": int,
             "continent": str,
             "beaten": bool,      # True if is_unlocked=1
-            "locked": bool,      # True if beyond initial levels and not yet unlocked
+            "locked": bool,      # Always False; no level-gating restrictions
             "level": int,        # 1-based level number
         }
     """
-    all_airports = db_manager.get_all_large_airports()
+    return _build_level_airports(db_manager.get_all_large_airports())
+
+
+def get_level_airports_in_bounds(
+    south: float,
+    north: float,
+    west: float,
+    east: float,
+) -> list:
+    """Return playable large airports inside the requested map viewport."""
+    airports = db_manager.get_large_airports_in_bounds(south, north, west, east)
+    return _build_level_airports(airports)
+
+
+def _build_level_airports(airports: list) -> list:
     goals = db_manager.get_all_goals()
 
     levels = []
-    for ap in all_airports:
+    for ap in airports:
         goal = goals.get(ap["ident"], {})
         levels.append({
             "ident": ap["ident"],
@@ -64,22 +83,11 @@ def get_level_airports() -> list:
             "beaten": bool(ap.get("is_unlocked", 0)),
         })
 
-    # Sort by difficulty ascending, then by name for deterministic order
     levels.sort(key=lambda x: (x["difficulty"], x["name"] or ""))
 
-    # Assign progressive difficulty (1-5 stars across 10 levels)
-    # Levels 1-2: 1★, 3-4: 2★, 5-6: 3★, 7-8: 4★, 9-10: 5★
-    # Beyond 10: repeat pattern
     for i, lv in enumerate(levels):
         lv["level"] = i + 1
-        lv["difficulty"] = min(5, (i // 2) + 1)
-
-    # Sequential unlock: level N+1 opens only after level N is beaten
-    for i, lv in enumerate(levels):
-        if i == 0:
-            lv["locked"] = False  # First level always open
-        else:
-            lv["locked"] = not levels[i - 1]["beaten"]
+        lv["locked"] = False
 
     return levels
 

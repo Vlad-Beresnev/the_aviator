@@ -6,6 +6,8 @@ import { Airport } from '@/lib/api';
 interface AirportPanelProps {
   airport: Airport;
   onClose: () => void;
+  isAuthenticated: boolean;
+  onRequireAuth: () => void;
 }
 
 function Stars({ count }: { count: number }) {
@@ -30,61 +32,92 @@ function StatusBadge({ airport }: { airport: Airport }) {
   return <span className="inline-block px-2 py-0.5 rounded text-xs bg-yellow-100 text-yellow-700 font-medium">Open</span>;
 }
 
-export default function AirportPanel({ airport, onClose }: AirportPanelProps) {
+export default function AirportPanel({
+  airport,
+  onClose,
+  isAuthenticated,
+  onRequireAuth,
+}: AirportPanelProps) {
   return (
-    <div className="fixed right-0 top-0 h-full w-80 bg-white shadow-xl z-[1000] flex flex-col translate-x-0 transition-transform">
-      <div className="flex items-start justify-between p-4 border-b">
-        <div>
-          <h2 className="font-bold text-lg leading-tight">{airport.name}</h2>
-          <p className="text-sm text-gray-500">{airport.city} · {airport.continent}</p>
-        </div>
-        <button
-          onClick={onClose}
-          className="text-gray-400 hover:text-gray-600 text-2xl leading-none ml-2 mt-0.5"
-          aria-label="Close panel"
-        >
-          ×
-        </button>
-      </div>
-
-      <div className="flex-1 overflow-y-auto p-4 space-y-3">
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-gray-500 w-20">Level</span>
-          <span className="font-medium">{airport.level}</span>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-gray-500 w-20">Difficulty</span>
-          <Stars count={airport.difficulty} />
-        </div>
-
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-gray-500 w-20">Reward</span>
-          <span className="font-medium">${airport.speaker_fee.toLocaleString()}</span>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-gray-500 w-20">Status</span>
-          <StatusBadge airport={airport} />
-        </div>
-      </div>
-
-      <div className="p-4 border-t">
-        {airport.locked ? (
+    <div
+      className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/55 px-4"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="airport-modal-title"
+      onClick={onClose}
+    >
+      <div
+        className="w-full max-w-md rounded-lg bg-white text-gray-950 shadow-2xl"
+        onClick={(event) => event.stopPropagation()}
+      >
+        <div className="flex items-start justify-between gap-4 border-b p-5">
+          <div>
+            <h2 id="airport-modal-title" className="text-xl font-semibold leading-tight">
+              {airport.name}
+            </h2>
+            <p className="mt-1 text-sm text-gray-600">
+              {airport.city} · {airport.continent}
+            </p>
+          </div>
           <button
-            disabled
-            className="w-full py-2 rounded bg-gray-200 text-gray-400 cursor-not-allowed font-medium"
+            onClick={onClose}
+            className="text-2xl leading-none text-gray-400 hover:text-gray-700"
+            aria-label="Close level details"
           >
-            Play Level
+            ×
           </button>
-        ) : (
-          <Link
-            href={`/game/${airport.ident}`}
-            className="block w-full py-2 rounded bg-blue-600 text-white text-center font-medium hover:bg-blue-700 transition-colors"
-          >
-            Play Level
-          </Link>
-        )}
+        </div>
+
+        <div className="space-y-4 p-5">
+          <p className="text-sm leading-6 text-gray-600">
+            Plan this airport level before takeoff. Review the reward, difficulty, and current
+            status, then start the flight challenge when you are ready.
+          </p>
+
+          <dl className="grid grid-cols-[7rem_1fr] gap-x-3 gap-y-3 text-sm">
+            <dt className="text-gray-500">Level</dt>
+            <dd className="font-medium">{airport.level}</dd>
+
+            <dt className="text-gray-500">Difficulty</dt>
+            <dd>
+              <Stars count={airport.difficulty} />
+            </dd>
+
+            <dt className="text-gray-500">Reward</dt>
+            <dd className="font-medium">${airport.speaker_fee.toLocaleString()}</dd>
+
+            <dt className="text-gray-500">Status</dt>
+            <dd>
+              <StatusBadge airport={airport} />
+            </dd>
+          </dl>
+        </div>
+
+        <div className="border-t p-5">
+          {airport.locked ? (
+            <button
+              disabled
+              className="w-full rounded-md bg-gray-200 px-4 py-2.5 font-medium text-gray-400 cursor-not-allowed"
+            >
+              Play Level
+            </button>
+          ) : isAuthenticated ? (
+            <Link
+              href={`/game/${airport.ident}`}
+              className="block w-full rounded-md bg-blue-600 px-4 py-2.5 text-center font-medium text-white transition-colors hover:bg-blue-700"
+            >
+              Play Level
+            </Link>
+          ) : (
+            <button
+              type="button"
+              onClick={onRequireAuth}
+              className="w-full rounded-md bg-blue-600 px-4 py-2.5 text-center font-medium text-white transition-colors hover:bg-blue-700"
+            >
+              Play Level
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );

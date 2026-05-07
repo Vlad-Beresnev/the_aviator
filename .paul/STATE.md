@@ -59,9 +59,10 @@ PLAN ──▶ APPLY ──▶ UNIFY
 | game rows created before Phase 5 migration show same created_at | Phase 5 | XS | v0.2 cosmetic |
 
 ### Git State
-Last commit: ca7a303 (pre-phase-5)
+Last commit: c8535af feat(05-public-leaderboard): v0.1 MVP complete
 Branch: main
 Feature branches merged: none
+Note: Phase 4 game component files uncommitted (frontend/components/game/, frontend/components/auth/) — pre-existing from Phase 4 session
 
 ### Blockers/Concerns
 None.

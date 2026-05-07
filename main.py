@@ -123,19 +123,7 @@ def show_levels_table(levels: list, page: int = 0, cursor: int = 0) -> None:
     for i, lv in enumerate(page_levels):
         marker = "▸" if i == cursor else ""
         row_style = "bold cyan" if i == cursor else ""
-        if lv["locked"]:
-            prev = lv["level"] - 1
-            table.add_row(
-                marker,
-                str(lv["level"]),
-                "🔒 LOCKED",
-                "—",
-                "—",
-                "—",
-                f"[dim]Beat level {prev} first[/dim]",
-                style=row_style,
-            )
-        elif lv["beaten"]:
+        if lv["beaten"]:
             table.add_row(
                 marker,
                 str(lv["level"]),
@@ -226,14 +214,6 @@ def action_deliver_lecture(state: dict) -> dict:
             num = int(key)
             if 1 <= num <= len(levels):
                 selected = levels[num - 1]
-
-    if selected["locked"]:
-        prev = selected["level"] - 1
-        _clear_screen()
-        console.print(f"[red]This level is locked. Beat level {prev} first![/red]")
-        console.print("[dim]  Press any key to continue...[/dim]")
-        _read_key()
-        return state
 
     if selected["beaten"]:
         _clear_screen()

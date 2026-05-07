@@ -16,7 +16,7 @@ A CLI + Pygame hybrid game where you pilot the world's first electric aircraft a
 | Key | Action |
 |-----|--------|
 | `← → ↑ ↓` / `W A S D` | Move plane |
-| `Space` | Fire (also auto-fires) |
+| `Space` | Fire |
 | `Esc` | Abort level |
 
 ### Controls (CLI menus)
@@ -144,7 +144,7 @@ The project uses 4 tables. Full dump: `db/aviator_dev_dump.sql`
 | `home_link` | VARCHAR(40) | | Website URL |
 | `wikipedia_link` | VARCHAR(40) | | Wikipedia URL |
 | `keywords` | VARCHAR(40) | | Search keywords |
-| `is_unlocked` | TINYINT(1) | | `0`/`1` — unlocked by beating a level |
+| `is_unlocked` | TINYINT(1) | | `0`/`1` — level has been beaten |
 
 ### `country`
 

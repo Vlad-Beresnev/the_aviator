@@ -22,6 +22,124 @@ def test_haversine_same_airport():
     assert dist == pytest.approx(0.0, abs=0.01)
 
 
+def test_level_airports_are_all_playable_without_db(monkeypatch):
+    """Level availability does not depend on previous beaten levels."""
+    import airport_service
+
+    monkeypatch.setattr(airport_service.db_manager, "get_all_large_airports", lambda: [
+        {
+            "ident": "AAA",
+            "name": "Airport A",
+            "municipality": "City A",
+            "latitude_deg": 1.0,
+            "longitude_deg": 1.0,
+            "continent": "EU",
+            "is_unlocked": 0,
+        },
+        {
+            "ident": "BBB",
+            "name": "Airport B",
+            "municipality": "City B",
+            "latitude_deg": 2.0,
+            "longitude_deg": 2.0,
+            "continent": "EU",
+            "is_unlocked": 0,
+        },
+    ])
+    monkeypatch.setattr(airport_service.db_manager, "get_all_goals", lambda: {
+        "AAA": {"speaker_fee": 1000, "difficulty": 1},
+        "BBB": {"speaker_fee": 2000, "difficulty": 2},
+    })
+
+    levels = airport_service.get_level_airports()
+
+    assert [level["locked"] for level in levels] == [False, False]
+
+
+def test_level_airports_preserve_goal_difficulty_without_db(monkeypatch):
+    """Difficulty comes from goal data, not the airport's level index."""
+    import airport_service
+
+    monkeypatch.setattr(airport_service.db_manager, "get_all_large_airports", lambda: [
+        {
+            "ident": f"AP{i}",
+            "name": f"Airport {i}",
+            "municipality": f"City {i}",
+            "latitude_deg": float(i),
+            "longitude_deg": float(i),
+            "continent": "EU",
+            "is_unlocked": 0,
+        }
+        for i in range(1, 7)
+    ])
+    monkeypatch.setattr(airport_service.db_manager, "get_all_goals", lambda: {
+        "AP1": {"speaker_fee": 1000, "difficulty": 5},
+        "AP2": {"speaker_fee": 1000, "difficulty": 1},
+        "AP3": {"speaker_fee": 1000, "difficulty": 4},
+        "AP4": {"speaker_fee": 1000, "difficulty": 2},
+        "AP5": {"speaker_fee": 1000, "difficulty": 3},
+        "AP6": {"speaker_fee": 1000, "difficulty": 5},
+    })
+
+    levels = airport_service.get_level_airports()
+
+    assert [level["difficulty"] for level in levels] == [1, 2, 3, 4, 5, 5]
+
+
+def test_level_airports_in_bounds_uses_viewport_query_without_db(monkeypatch):
+    """Viewport level loading uses the bounded airport query instead of all airports."""
+    import airport_service
+
+    captured_bounds = {}
+
+    def fake_airports_in_bounds(south, north, west, east):
+        captured_bounds.update({"south": south, "north": north, "west": west, "east": east})
+        return [
+            {
+                "ident": "AAA",
+                "name": "Airport A",
+                "municipality": "City A",
+                "latitude_deg": 1.0,
+                "longitude_deg": 1.0,
+                "continent": "EU",
+                "is_unlocked": 0,
+            },
+        ]
+
+    monkeypatch.setattr(airport_service.db_manager, "get_large_airports_in_bounds", fake_airports_in_bounds)
+    monkeypatch.setattr(airport_service.db_manager, "get_all_goals", lambda: {
+        "AAA": {"speaker_fee": 1000, "difficulty": 1},
+    })
+
+    levels = airport_service.get_level_airports_in_bounds(-10, 10, 170, -170)
+
+    assert captured_bounds == {"south": -10, "north": 10, "west": 170, "east": -170}
+    assert [level["ident"] for level in levels] == ["AAA"]
+
+
+def test_get_airport_returns_level_shape_without_db(monkeypatch):
+    """Large airport lookups return the playable API shape used by the web game."""
+    import airport_service
+
+    level_airport = {
+        "ident": "AAA",
+        "name": "Airport A",
+        "city": "City A",
+        "latitude_deg": 1.0,
+        "longitude_deg": 1.0,
+        "continent": "EU",
+        "beaten": False,
+        "locked": False,
+        "level": 1,
+        "difficulty": 1,
+        "speaker_fee": 1000,
+    }
+
+    monkeypatch.setattr(airport_service, "get_level_airports", lambda: [level_airport])
+
+    assert airport_service.get_airport("AAA") == level_airport
+
+
 # ---------------------------------------------------------------------------
 # Integration tests (require DB)
 # ---------------------------------------------------------------------------
@@ -143,23 +261,14 @@ def test_get_level_airports_sorted_by_difficulty(db_connection):
 
 
 def test_get_level_airports_initial_unlocked(db_connection):
-    """First level is always unlocked."""
+    """First level is playable."""
     import airport_service
     result = airport_service.get_level_airports()
     assert result[0]["locked"] is False, "Level 1 should not be locked"
 
 
-def test_get_level_airports_rest_locked(db_connection):
-    """Sequential unlock: a level is locked if its predecessor is not beaten."""
+def test_get_level_airports_all_playable(db_connection):
+    """All level airports are playable regardless of completion order."""
     import airport_service
     result = airport_service.get_level_airports()
-    for i, lv in enumerate(result):
-        if i == 0:
-            assert lv["locked"] is False, "Level 1 must always be unlocked"
-        else:
-            prev_beaten = result[i - 1]["beaten"]
-            if not prev_beaten:
-                assert lv["locked"] is True, (
-                    f"Level {lv['level']} should be locked "
-                    f"(level {result[i-1]['level']} not beaten)"
-                )
+    assert all(lv["locked"] is False for lv in result)

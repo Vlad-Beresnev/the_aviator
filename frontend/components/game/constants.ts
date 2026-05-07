@@ -1,0 +1,17 @@
+export const GAME_WIDTH = 1024;
+export const GAME_HEIGHT = 768;
+export const FPS = 75;
+export const LEVEL_DURATION = 75;
+export const MAX_BATTERY = 1000;
+export const ENEMY_BASE_SPEED = 1.45;
+export const ENEMY_BASE_SPAWN_INTERVAL = 100;
+export const ENEMY_BASE_FIRE_INTERVAL = 150;
+export const DIFFICULTY_SCALE_STEP = 0.18;
+export const LEVEL_SCALE_STEP = 0.025;
+export const MAX_LEVEL_SCALE_BONUS = 0.75;
+export const IN_LEVEL_RAMP_MAX = 0.35;
+export const PLAYER_SPEED = 8;
+export const PLAYER_FIRE_INTERVAL = 7;
+export const BULLET_SPEED = 11;
+export const ENEMY_BULLET_SPEED = 4.5;
+export const HIT_DAMAGE = 40;
