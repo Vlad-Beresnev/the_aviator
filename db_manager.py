@@ -46,10 +46,9 @@ def run_migrations():
         ) ENGINE=InnoDB DEFAULT CHARSET=latin1
     """)
 
-    # Add is_unlocked to airport table if missing (idempotent — MariaDB IF NOT EXISTS syntax)
-    cursor.execute(
-        "ALTER TABLE airport ADD COLUMN IF NOT EXISTS is_unlocked BOOLEAN DEFAULT 0"
-    )
+    # Add is_unlocked to airport table if missing
+    if not _column_exists(cursor, "airport", "is_unlocked"):
+        cursor.execute("ALTER TABLE airport ADD COLUMN is_unlocked BOOLEAN DEFAULT 0")
 
     # Create goal table: maps each large airport to a speaker_fee and difficulty_level
     # airport_ident is a FK to airport.ident (latin1 to match charset)
