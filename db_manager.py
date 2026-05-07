@@ -4,13 +4,16 @@ import config
 
 def _get_connection():
     """Return a fresh mysql-connector connection. Open/close per function — no pooling."""
-    return mysql.connector.connect(
+    kwargs = dict(
         host=config.DB_HOST,
         port=config.DB_PORT,
         user=config.DB_USER,
         password=config.DB_PASSWORD,
-        database=config.DB_NAME
+        database=config.DB_NAME,
     )
+    if config.DB_SSL:
+        kwargs["ssl_disabled"] = False
+    return mysql.connector.connect(**kwargs)
 
 
 def _column_exists(cursor, table: str, column: str) -> bool:

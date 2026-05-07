@@ -17,5 +17,7 @@ services:
         sync: false
       - key: JWT_SECRET
         generateValue: true
+      - key: DB_SSL
+        value: "true"
       - key: ALLOWED_ORIGINS
         sync: false
