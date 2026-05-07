@@ -201,6 +201,7 @@ export default function WorldMap({
       center={normalizedInitialCenter}
       zoom={clampZoom(initialZoom)}
       minZoom={MIN_ZOOM}
+      zoomControl={false}
       worldCopyJump
       style={{ height: '100%', width: '100%' }}
     >

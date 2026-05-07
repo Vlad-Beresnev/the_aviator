@@ -1,10 +1,12 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import { Suspense, useEffect, useRef, useState, useCallback } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { api, Airport, AirportBounds } from '@/lib/api';
 import AuthModal from '@/components/auth/AuthModal';
+import LeaderboardModal from '@/components/leaderboard/Leaderboard';
 import AirportPanel from '@/components/map/AirportPanel';
 import { useAuth } from '@/lib/auth';
 
@@ -16,7 +18,8 @@ function MapContent() {
   const { token, isLoading: isAuthLoading, logout } = useAuth();
   const [airports, setAirports] = useState<Airport[]>([]);
   const [selectedAirport, setSelectedAirport] = useState<Airport | null>(null);
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(true);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isLeaderboardModalOpen, setIsLeaderboardModalOpen] = useState(false);
   const [pendingLevelIdent, setPendingLevelIdent] = useState<string | null>(null);
   const airportFetchTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const airportFetchRequestRef = useRef(0);
@@ -63,7 +66,7 @@ function MapContent() {
   const handleLogout = useCallback(() => {
     logout();
     setPendingLevelIdent(null);
-    setIsAuthModalOpen(true);
+    setIsAuthModalOpen(false);
   }, [logout]);
 
   const handleAuthButtonClick = useCallback(() => {
@@ -109,14 +112,30 @@ function MapContent() {
       </div>
 
       <div
-        className="absolute right-4 top-4 z-[900] flex items-end gap-2 rounded border border-white/15 bg-black/80 px-3 py-2 text-white shadow-lg backdrop-blur"
+        className="absolute right-4 top-4 z-[900] flex items-end gap-2 text-white"
       >
+        <Link
+          href="/about"
+          className="rounded border border-white/15 bg-zinc-950 px-3 py-1 text-sm text-white outline-none hover:bg-zinc-800 focus:border-blue-400"
+        >
+          Demo
+        </Link>
         <button
           type="button"
           onClick={handleAuthButtonClick}
           className="rounded border border-white/15 bg-zinc-950 px-3 py-1 text-sm text-white outline-none hover:bg-zinc-800 focus:border-blue-400"
         >
           {token ? 'Logout' : 'Login'}
+        </button>
+      </div>
+
+      <div className="absolute left-4 top-4 z-[900] text-white">
+        <button
+          type="button"
+          onClick={() => setIsLeaderboardModalOpen(true)}
+          className="rounded border border-white/15 bg-zinc-950 px-3 py-1 text-sm text-white outline-none hover:bg-zinc-800 focus:border-blue-400"
+        >
+          Leaderboard
         </button>
       </div>
 
@@ -132,6 +151,10 @@ function MapContent() {
         isOpen={!isAuthLoading && !token && isAuthModalOpen}
         onClose={handleAuthModalClose}
         onAuthenticated={handleAuthenticated}
+      />
+      <LeaderboardModal
+        isOpen={isLeaderboardModalOpen}
+        onClose={() => setIsLeaderboardModalOpen(false)}
       />
     </div>
   );

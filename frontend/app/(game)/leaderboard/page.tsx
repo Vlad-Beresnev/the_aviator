@@ -1,15 +1,17 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { api } from '@/lib/api';
 import type { Score } from '@/lib/api';
 
 export default function LeaderboardPage() {
+  const router = useRouter();
   const [scores, setScores] = useState<Score[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchScores = async () => {
+  const fetchScores = useCallback(async () => {
     try {
       const data = await api.getScores();
       setScores(data);
@@ -19,24 +21,28 @@ export default function LeaderboardPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
-    fetchScores();
+    const timeout = setTimeout(fetchScores, 0);
     const interval = setInterval(fetchScores, 60000);
-    return () => clearInterval(interval);
-  }, []);
+    return () => {
+      clearTimeout(timeout);
+      clearInterval(interval);
+    };
+  }, [fetchScores]);
 
   return (
     <main className="p-8 max-w-3xl mx-auto">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold">Leaderboard</h1>
+      <div className="relative mb-6 flex items-center justify-center">
         <button
-          onClick={fetchScores}
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          type="button"
+          onClick={() => router.back()}
+          className="absolute left-0 rounded border border-gray-300 px-3 py-2 text-sm text-white hover:bg-gray-100 hover:text-gray-950"
         >
-          Refresh
+          Back
         </button>
+        <h1 className="text-center text-2xl font-bold">Leaderboard</h1>
       </div>
 
       {loading && <p>Loading...</p>}
