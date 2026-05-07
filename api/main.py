@@ -1,3 +1,4 @@
+import os
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -6,6 +7,11 @@ from api.auth import router as auth_router
 from api.routes.airports import router as airports_router
 from api.routes.game import router as game_router
 from api.routes.scores import router as scores_router
+
+_allowed_origins = [
+    o.strip()
+    for o in os.getenv("ALLOWED_ORIGINS", "http://localhost:3000").split(",")
+]
 
 
 @asynccontextmanager
@@ -18,7 +24,7 @@ app = FastAPI(title="The Aviator API", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=_allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
